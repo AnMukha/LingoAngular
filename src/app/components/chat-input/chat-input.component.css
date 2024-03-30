@@ -1,0 +1,8 @@
+.removed-text {
+    text-decoration: line-through;
+    color: red;
+}
+
+[contenteditable="true"] {
+    outline: none;
+  }

@@ -1,0 +1,17 @@
+.container {
+    display: grid;
+    background-color: blueviolet;
+    height:100vh;
+    grid-template-rows: 1fr 100px;
+}
+
+.messages-area {
+    background-color: burlywood;
+    margin: 20px;
+}
+
+.input-area {
+    background-color: darkcyan;
+    margin: 20px;
+    display: flex;
+}

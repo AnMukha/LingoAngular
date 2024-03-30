@@ -1,0 +1,20 @@
+<div class="main-container">
+    <div class="items-container">
+        <img src="assets/global3.png" style="height: 50px; width: 50px; rotate: -15deg; align-self: center;">
+        <h1 class="header" style="color: rgb(194, 120, 36); font-style: italic;">A2B2</h1>
+        <span class="label">Email address</span>
+        <input type="email" class="input"
+            name="username" [(ngModel)]="email"
+        />
+        <span class="label">Password</span>
+        <input type="password" class="input"
+            name="password" [(ngModel)]="password"
+        />
+        <div *ngIf="errorMessage" class="message">{{ errorMessage }}</div>
+        <button class="sign-in-button" (click)="login()">Sign In</button>
+        <div style="display: flex; margin-top: 15px;">
+            <a href="#">Forgot password?</a>
+            <a href="#" style="margin-left: auto;">Sign Up</a>
+        </div>
+    </div>
+</div>

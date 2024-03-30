@@ -1,0 +1,68 @@
+<div class = "page">
+    <div class="page-shape"></div>
+    <div class = "menu">
+        <img src="assets/global3.png" style="height: 33px; width: 33px; margin-left: 50px; margin-right: 10px; rotate: -15grad;">
+        <span class="logo-icon">A2B2</span>
+        <a href="/lessons" class="item">AI Chat Lessons</a>
+        <a href="/progress" class="item">Vocabulary map</a>
+        <span class="to-left">
+        <span class="lang-selection-container">
+            <span class="lang-label">Language to study today:</span>
+            <input class="lang-input" value="English">
+        </span>
+        <img *ngIf="logined" href="#" (click) = "logout()" class="user-icon"  src="assets/user1.png" style="height: 37px; width: 37px; padding: 5px;">        
+        <a *ngIf="!logined" href="/login" class="item">Sign in</a>
+        </span>
+    </div>
+    <div class = "content-header">
+        <img src="assets/AI.png" class="ai-picture">
+        <div>
+            <div>A Simple And Effective Way</div>
+            <div style="font-size: 34px; margin-top: 5px;">to study foreign language with AI</div>
+        </div>
+    </div>
+    <div class="content-text" style="display: flex; justify-content: center; margin-top: 170px; color: rgb(110, 110, 110);">
+        <div style="width: 900px">
+            <div style="font-size: 22px; padding-right: 280px; line-height: 1.5; color: rgb(110, 110, 110);" contenteditable="true">
+                With A2B2 you can study any language that ChatGPT speaks. <br> <span contenteditable="false">The method is suitable</span> for learners starting from the basic level as well as for improving at the B2-C1 levels.
+            </div>
+            <div style="font-size: 22px;  line-height: 1.5;">
+                <p style="font-size: 22px; font-weight: bold;">The main idea</p>
+                <p style="font-size: 22px;">Recall your experience of actually using a foreign language. You want to explain something to your interlocutor but lack the right, often used word. In the next conversation, you remember this word and use it again. Now, this word becomes part of your vocabulary. This method is more effective than any other, and here's why:
+                </p>
+                <ul>
+                    <li>You studied a word that you really needed (it was required twice!) instead of words from a textbook, which you might not use for several years.</li>
+                    <li>You recalled this word in the appropriate context and in combination with others, meaning your brain now knows how to use this word when it needs to explain something, which is much more effective than memorization, reading, or movies.</li>
+                    <li>You didn't have to do boring exercises.</li>
+                </ul>
+                <p style="font-size: 22px; font-weight: bold;">How this way to study is implemented in A2B2</p>
+                <p>
+                    You create a chat lesson by choosing a scenario. Some scenarios can be customized further. Some scenarios are free conversations with ChatGPT, while some follow a specific algorithm (text translation, answering questions). You engage in a conversation according to the chosen scenario. 
+                </p>
+                <p>
+                    If you don't remember a word, you can get a hint using “Tab”. Every completed sentence is checked, and you see the results of the check right in the text input window:
+                </p>
+                <p>
+                    In addition, there's a mode for consolidating the material. In this mode, you can attempt to write messages correctly that caused difficulties again:
+                </p>
+                <p>
+                    By this way, this application reproduces the best natural scenario for language studying, described above.
+                </p>
+                <p style="font-size: 22px; font-weight: bold;">What else?</p>
+                <p>
+                    When using the program, you'll see many other interesting features:
+                </p>
+                <ul>
+                    <li>The program analyzes the words you use, and you can view your vocabulary on the “Vocabulary map” page.</li>
+                    <li>You can see grammar explanations for your mistakes.</li>
+                    <li>You can adjust the level of criticality towards your mistakes – either only major errors or stylistic errors too.</li>
+                </ul>
+                <p style="font-size: 22px; font-weight: bold;">Payment</p>
+                <p>
+                    After registration, you will receive a small balance on your account, allowing you to try the program's features with some limitations. The cost is mainly determined by the cost of the ChatGPT API. If necessary, you can view the cost of each message in the chat for you.
+                </p>
+                <p style="font-size: 25px; font-weight: bold; text-align: center;">Best wishes for your language learning!</p>
+            </div>
+        </div>
+    </div>    
+</div>

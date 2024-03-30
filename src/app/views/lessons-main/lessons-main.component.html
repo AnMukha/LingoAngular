@@ -1,0 +1,23 @@
+<div class="header-bar">
+    <a href="/main" class="home-button">Home</a>
+</div>
+<div class="content-area">    
+        <div class="content-header">
+            <h1>Lessons</h1>
+        </div>
+        <div class="content-body">
+            <div class="lessons-list">
+                <div class="lesson" *ngFor="let lesson of lessons">
+                    <a [href]="'lessons/' + lesson.chatId">
+                        <span class="lesson-title">
+                            {{lesson.chatType}}
+                        </span>
+                        <span class="lesson-description">
+                            {{lesson.title}}
+                        </span>
+                    </a>
+                </div>
+            </div>
+            <button style="width: 50px;" (click)="addNewLesson()">Add</button>
+        </div>    
+</div>

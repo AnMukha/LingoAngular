@@ -1,0 +1,94 @@
+.logo-icon {
+    font-size: 40px;
+    font-style: italic;
+    font-family: Arial, Helvetica, sans-serif;
+    color: rgb(226, 166, 75);    
+    margin-right: 40px;
+}
+
+.user-icon:hover {
+    cursor:pointer;
+}
+
+.page-shape {
+    position: absolute;
+    width: 100%;
+    background: linear-gradient(145deg, #525252, #b3b3b3);
+    height: 500px;
+    z-index: -1;
+    transform: skewY(8deg);
+    transform-origin: 100%;    
+}
+
+
+.menu {
+    height: 80px;
+    color: white;
+    display: flex;
+    align-items: center;
+}
+
+.content-header {
+    color: white;    
+    margin-left: 400px;
+    padding-top: 100px;
+    font-size: 40px;
+    display: flex;
+    justify-content: center;
+}
+
+.item {
+    color: white;
+    padding: 10px;
+    margin: 10px;            
+    display: flex;
+    justify-content: space-between;
+    text-decoration: none;    
+    font-size: 18px;
+}
+
+
+.lang-selection-container {
+    padding: 10px;
+    margin: 10px;            
+    display: flex;
+    justify-content: space-between;    
+    align-items: center;   
+}
+
+.lang-label {
+    color: rgb(255, 255, 255);
+    font-size: 14px;      
+}
+
+.item:hover {
+    background-color: rgb(173, 173, 173);
+    border-radius: 5px;
+}
+
+.to-left {
+    margin-left: auto;
+    display: flex;
+    justify-content: space-between;    
+    align-items: center;  
+    margin-right: 30px;    
+}
+
+.lang-input {
+    color: rgb(102, 102, 102);
+    padding: 10px;
+    margin: 10px;            
+    display: flex;
+    justify-content: space-between;   
+    height: 10px; 
+    border-radius: 4px;
+    border-style: none;        
+}
+
+.ai-picture {
+    width: 110px;
+    height: 100px;
+    rotate: -20deg;
+    border-radius: 5px;
+    margin-right: 50px;
+}
