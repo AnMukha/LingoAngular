@@ -1,0 +1,11 @@
+.scenario {
+    height: 40px;
+}
+
+.scenario-selected {
+    background-color: rgb(210, 210, 210);
+}
+
+.scenario:hover {    
+    cursor: pointer;
+}

@@ -6,10 +6,6 @@
     margin-right: 40px;
 }
 
-.user-icon:hover {
-    cursor:pointer;
-}
-
 .page-shape {
     position: absolute;
     width: 100%;
@@ -47,6 +43,10 @@
     font-size: 18px;
 }
 
+.item:hover {
+    background-color: rgb(173, 173, 173);
+    border-radius: 5px;
+}
 
 .lang-selection-container {
     padding: 10px;
@@ -59,11 +59,6 @@
 .lang-label {
     color: rgb(255, 255, 255);
     font-size: 14px;      
-}
-
-.item:hover {
-    background-color: rgb(173, 173, 173);
-    border-radius: 5px;
 }
 
 .to-left {

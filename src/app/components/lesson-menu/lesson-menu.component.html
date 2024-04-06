@@ -1,0 +1,7 @@
+<div class="container" tabindex="0" (focusout)="onBlur($event)">
+    <span class="button" (click)="onClick($event)" >...</span>
+    <ul *ngIf="menuVisible" class="menu-items-list">
+        <li class="menu-item" (click)="onRenameClick($event)">Rename</li>
+        <li class="menu-item" (click)="onDeleteClick($event)">Delete</li>
+    </ul>
+</div>

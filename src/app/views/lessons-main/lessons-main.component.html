@@ -1,23 +1,13 @@
-<div class="header-bar">
-    <a href="/main" class="home-button">Home</a>
-</div>
-<div class="content-area">    
-        <div class="content-header">
-            <h1>Lessons</h1>
-        </div>
-        <div class="content-body">
-            <div class="lessons-list">
-                <div class="lesson" *ngFor="let lesson of lessons">
-                    <a [href]="'lessons/' + lesson.chatId">
-                        <span class="lesson-title">
-                            {{lesson.chatType}}
-                        </span>
-                        <span class="lesson-description">
-                            {{lesson.title}}
-                        </span>
-                    </a>
-                </div>
-            </div>
-            <button style="width: 50px;" (click)="addNewLesson()">Add</button>
-        </div>    
+<div style="background-color: rgb(223, 142, 142); height: 100vh; display: grid; grid-template-rows: 60px 1fr;">
+    <div class="menu" style="grid-row: 1;">
+        <a href="/main" class="logo-ref">
+            <img src="assets/global3.png" style="height: 25px; width: 25px; margin-left: 50px; margin-right: 10px; rotate: -15grad;">
+            <span class="logo-text">A2B2</span>    
+        </a>
+        <a href="/lessons/newLesson" class="menu-item" [ngClass]="activeMenu == 'newLesson'?'menu-item-selected':''">Start new lesson</a>
+        <a href="/lessons/previous" class="menu-item" [ngClass]="activeMenu == 'previous'?'menu-item-selected':''">Previous lessons</a>
+    </div>
+    <div style="grid-row: 2; background-color: rgb(255, 255, 255); overflow-y: auto;">                
+        <router-outlet></router-outlet>
+    </div>
 </div>

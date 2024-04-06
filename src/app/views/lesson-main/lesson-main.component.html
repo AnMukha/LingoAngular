@@ -1,20 +1,23 @@
-<div class="container">
-    <div class = "messages-area">
-        <span>
-            sdfsdf
-        <span style="background-color: silver; border-radius: 10px; padding: 5px; margin: 10px; border-width: 2px; border-color: rgb(255, 0, 76);"> 
-            Text text 1 Text text 1 Text text 1 Text text 1 Text text 1 Text text 1 Text text 1 Text text 1 Text text 1 Text text 1 Text text 1 Text text 1 Text text 1 Text text 1 Text text 1 Text text 1 Text text 1 Text text 1 Text text 1 Text text 1 Text text 1 Text text 1 Text text 1 Text text 1 
-        </span>
-        <span style="background-color: blue; " contenteditable="true">Text text 2 Text text 2Text text 2Text text 2Text text 2Text text 2Text text 2Text text 2Text text 2Text text 2Text text 2Text text 2Text text 2Text text 2Text text 2Text text 2Text text 2Text text 2Text text 2Text text 2Text text 2Text text 2Text text 2Text text 2Text text 2</span>
-        sdfdsf
-        </span>
-        <span> sdfsdf d3  sdfsdf d3  sdfsdf d3  sdfsdf d3  sdfsdf d3  sdfsdf d3  sdfsdf d3  sdfsdf d3  sdfsdf d3  sdfsdf d3  sdfsdf d3  sdfsdf d3  sdfsdf d3 </span>
-
-    </div>
+<div class="component-container">
+    <div class = "messages-area" style="padding-left: 100px; padding-right: 100px; background-color: white;" >
+        <div style="background-color: white;" *ngFor="let m of messagesService.messages">
+            <hr/>
+            <div *ngIf="m.isUserMessage">
+                <div style="font-weight: bold;">You</div>                
+                <div>
+                    <span *fixedText="m.corrections??' '"></span>
+                </div>
+            </div>
+            <div *ngIf="!m.isUserMessage">
+                <div style="font-weight: bold;">Chat</div>
+                <span [innerHTML]="getMarkdown(m.content!)"></span>
+            </div>
+        </div>
+</div>
     <div class = "input-area">
-        <app-chat-input style="flex-grow: 1;"></app-chat-input>
+        <app-chat-input style="flex-grow: 1; padding: 4px; overflow: auto; background-color: white; margin: 20px; border-radius: 4px;"></app-chat-input>
         <div style="padding: 10px; width: 150px;">
-            <button style="display: block;">Complete</button>
+            <button (click) = "sumbitMessage()" style="display: block;">Complete</button>
             <button (click) = "sumbitCurrent()" >Submit current</button>
         </div>
     </div>    

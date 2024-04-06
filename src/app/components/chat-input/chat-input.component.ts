@@ -1,7 +1,9 @@
 import { AfterViewChecked, ChangeDetectionStrategy, Component, ElementRef, ViewChild } from '@angular/core';
 import { FixedTextDirective } from '../../directives/fixed-text.directive';
-import { Observable } from 'rxjs';
+import { Observable, timeout } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { LessonMessagesService } from '../../services/lesson-messages.service';
+import { tick } from '@angular/core/testing';
 
 @Component({
   selector: 'app-chat-input',
@@ -29,17 +31,19 @@ export class ChatInputComponent implements AfterViewChecked {
 
   private confirmedContentFixed: string = "";
   private confirmedContentOriginal: string = "";  
+  public corrections: string = "";
   public editedContent: string = "";
   public editedContentPostfix: string = "";
   private hintedWords: string[] = [];
   private hintPosition: number | null = null;  
   public hintText: string = "";
+  private hints: string[] = [];
   private needMoveCursorAfterHint: boolean = false;
   private needMoveCursorToPos: number | null = null;
-  public showEditSpan: boolean = true;
-  private bindingDamaged: boolean = true;
+  //public showEditSpan: boolean = true;
+  //private bindingDamaged: boolean = true;
 
-  constructor () {    
+  constructor (protected lessonMessagesService: LessonMessagesService) {    
   }
 
   ngOnInit() {    
@@ -56,55 +60,105 @@ export class ChatInputComponent implements AfterViewChecked {
     }
   }
 
-  public getContentToRender() {    
-    return this.confirmedContentFixed;
-  }
-
   public getTextToFix(): string {    
     this.updateEditedFromHtml();
     return this.editedContent;
-  }  
-
-  public addFixedText(originalText: string, fixedText: string) {
-    this.confirmedContentOriginal += originalText;
-    this.confirmedContentFixed += fixedText;
-    this.editedContent = this.editedContent.substring(originalText.length);
-    if (this.editedContent == "") {    
-      this.editedContent = "";      
-      this.bindingDamaged = true;      
-    }
-    this.needMoveCursorToPos = 0;
-    console.log("editedContent: "+this.editedContent);
   }
 
+  public getTextToSumbit(): string {
+    this.updateEditedFromHtml();
+    return this.confirmedContentOriginal + this.editedContent + this.hintText + this.editedContentPostfix;
+  }
+
+  public reset() {
+    this.editedContent = "";
+    this.editedContentPostfix = "";
+    this.hintText = "";
+    this.confirmedContentFixed = "";
+    this.confirmedContentOriginal = "";
+    this.corrections = "";
+    this.hintedWords = [];
+    this.hintPosition = null;
+    this.needMoveCursorAfterHint = false;
+    this.needMoveCursorToPos = null;
+    //this.showEditSpan = true;
+    //this.bindingDamaged = true;
+    this.editedSpanRef.nativeElement.textContent = this.editedContent;
+  }
+
+  public addFixedText(originalText: string, fixedText: string, corrections: string) {
+    this.confirmedContentOriginal += originalText;
+    this.confirmedContentFixed += fixedText;
+    this.corrections += corrections;
+    this.editedContent = this.editedContent.substring(originalText.length);
+    //if (this.editedContent == "") {    
+      //this.editedContent = "";      
+      //this.bindingDamaged = true;      
+    //}
+    this.needMoveCursorToPos = 0;
+    this.editedSpanRef.nativeElement.textContent = this.editedContent;
+    console.log("editedContent: "+this.editedContent);
+  }
     
+  isSpace(c: string) {
+    return /\s/.test(c);
+  }
+
   onKeyDownWhenEdit(e: any) {    
-    if (e.key === 'Tab' || e.keyCode === 9) {            
+    if (e.key === 'Tab' || e.keyCode === 9) {        
       e.preventDefault();      
+      if (this.hintText=="..loaded..") {
+        return;
+      }
+      if (this.hintText!="") {
+        this.hintText = this.getNextHintText(this.hints, this.hintText);
+        return;
+      }
       this.updateEditedFromHtml();
       if (this.editedContent.length < 2)
-        return;      
+        return;
       let cursorPos = this.getCursorPosition();
-      if (this.hintText!="") {
-        cursorPos = this.editedContent.length + this.hintText.length;
-        this.applyHint(false);        
-      }
       this.needMoveCursorAfterHint = true;
-      this.hintText = "some hint ";
-      
+      this.hintText = "..loaded..";      
       var content = this.editedContent;
       this.editedContent = content.substring(0, cursorPos);
+      if (this.editedContent.length>0 && !this.isSpace(this.editedContent[this.editedContent.length-1]))
+        this.editedContent += " ";
       this.editedContentPostfix = content.substring(cursorPos!);
+      if (this.editedContentPostfix.length>0 && this.editedContentPostfix[0]!=" ")
+        this.editedContentPostfix = " "+this.editedContentPostfix;
+      
+      this.editedSpanRef.nativeElement.textContent = this.editedContent;
+
+      this.lessonMessagesService.getNextWordHint(this.editedContent + this.editedContentPostfix, cursorPos!).then((hints) => {
+        {
+          if (this.hintText=="..loaded..") {
+            this.hints = hints;
+            this.hintText = hints[0];
+          }          
+        }
+      });
+      
     } 
-    else if (this.hintText!="" && (e.key === 'Backspace' || e.keyCode === 8 || e.key === 'Escape' || e.keyCode === 27)) {
-      e.preventDefault();      
+    else if (this.hintText == "..loaded.." || (this.hintText!="" && (e.key === 'Backspace' || e.keyCode === 8 || e.key === 'Escape' || e.keyCode === 27))) {
+      if (this.hintText != "..loaded..")
+        e.preventDefault();
       this.hintText = "";
       this.needMoveCursorToPos = this.editedContent.length;
       this.editedContent = this.editedContent+this.editedContentPostfix;
       this.editedContentPostfix = "";      
+      this.editedSpanRef.nativeElement.textContent = this.editedContent;
     }
-    else if (this.hintText!="") 
-      this.applyHint();    
+    else if (this.hintText!="") {      
+      setTimeout(() =>  this.applyHint());
+    }            
+  }
+
+  getNextHintText(hints: string[], hintText: string): string {
+    var index = hints.indexOf(hintText);
+    if (index == hints.length-1)
+      return hints[0];
+    return hints[index+1];
   }
 
   updateEditedFromHtml() {
@@ -113,8 +167,10 @@ export class ChatInputComponent implements AfterViewChecked {
   }
 
   onContentClick() {
-    if (this.hintText!="") 
+    if (this.hintText!="")
       this.applyHint();
+      const inputElement: HTMLInputElement = this.editedSpanRef.nativeElement;      
+      inputElement?.focus(); 
   }
 
   onContentBlur() {
@@ -123,10 +179,10 @@ export class ChatInputComponent implements AfterViewChecked {
   }
 
   onInput() {
-    if (this.editedSpanRef.nativeElement.textContent.length == 0) {
-      this.bindingDamaged = true;      
-    }
-    if (this.editedSpanRef.nativeElement.textContent.length != 0 && this.bindingDamaged) {
+    //if (this.editedSpanRef.nativeElement.textContent.length == 0) {
+      //this.bindingDamaged = true;      
+    //}
+    /*if (this.editedSpanRef.nativeElement.textContent.length != 0 && this.bindingDamaged) {
       this.bindingDamaged = false;
       this.updateEditedFromHtml()
       this.showEditSpan = false;
@@ -135,15 +191,21 @@ export class ChatInputComponent implements AfterViewChecked {
         this.showEditSpan = true;
         this.needMoveCursorToPos = cursorPosition!;        
       });
-    }
+    }*/
+    //var cursorPos = this.getCursorPosition();
+    //if (cursorPos!=null)
+//      this.needMoveCursorToPos = cursorPos;
+    this.editedContent = this.editedSpanRef.nativeElement.textContent;
   }
 
   applyHint(moveCursor: boolean = true) {
     if (moveCursor)
-      this.needMoveCursorToPos = this.editedContent.length+this.hintText.length;        
-    this.editedContent = this.editedContent + this.hintText + this.editedContentPostfix;
+      this.needMoveCursorToPos = this.editedContent.length+this.hintText.length + this.getCursorPosition()!;
+    var editedContentPostfix = this.editedPostfixSpanRef.nativeElement.textContent;
+    this.editedContent = this.editedContent + this.hintText + editedContentPostfix;
     this.hintText = "";
-    this.editedContentPostfix = "";    
+    this.editedContentPostfix = "";
+    this.editedSpanRef.nativeElement.textContent = this.editedContent;
   }
   
 
@@ -169,20 +231,28 @@ export class ChatInputComponent implements AfterViewChecked {
 
     const inputElement: HTMLInputElement = this.editedSpanRef.nativeElement;
     setTimeout(() => {
-      inputElement.focus();}, 0);
-
-    const range = document.createRange();
-    const sel = window.getSelection();
-          
-    range.setStart(inputElement.childNodes[0], pos);
-    range.collapse(true);      
-    sel!.removeAllRanges();
-    sel!.addRange(range);    
+      inputElement.focus();
+      try
+      {
+        const range = document.createRange();
+        const sel = window.getSelection();
+            
+        if (inputElement.childNodes[0].nodeValue?.length??999 < pos) {
+          range.setStart(inputElement.childNodes[0], pos);
+          range.collapse(true);      
+          sel!.removeAllRanges();
+          sel!.addRange(range);    
+        }
+      }
+      catch (e) {
+        console.log("Error: "+e);
+      }          
+    }, 0);
   }
 
-  getCursorPosition() {
+  getCursorPosition(): number | undefined {
     const selection = window.getSelection();
-    if (!selection!.rangeCount) return; // No selection available
+    if (!selection!.rangeCount) return undefined; // No selection available
   
     const range = selection!.getRangeAt(0);
     const clonedRange = range.cloneRange();
@@ -206,6 +276,7 @@ export class ChatInputComponent implements AfterViewChecked {
     var cursorPos = this.getCursorPosition();    
     this.editedContent = this.editedContent.substring(0, cursorPos) + text + this.editedContent.substring(cursorPos!)+" ";
     this.needMoveCursorToPos = cursorPos! + text.length;
+    this.editedSpanRef.nativeElement.textContent = this.editedContent;
   }
     
 }

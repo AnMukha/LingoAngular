@@ -1,7 +1,8 @@
 <div (keydown)="onKeyDownWhenEdit($event)" (click)="onContentClick()" (blur)="onContentBlur()" contenteditable="false" style="background-color: white; height: 100%;">    
-    <span contenteditable="false" style="color: darkgray;" *fixedText="getContentToRender()">...start value...</span>
+    <span contenteditable="false" *fixedText="corrections"></span>
         
-    <span *ngIf="showEditSpan" tabIndex="0" #editedSpan contenteditable="true" style="background-color:lightcoral; margin: 5px;" (paste)="handlePaste($event)" (input)="onInput()">{{editedContent}}</span>
-    <span contenteditable="false" style="color: silver; background-color:brown; margin: 5px;">{{hintText}}</span>
-    <span #editedPostfixSpan contenteditable="true" style="background-color:rgb(50, 42, 165); margin: 5px;">{{editedContentPostfix}}</span>
+    <span #editedSpan contenteditable="true" 
+            (paste)="handlePaste($event)" (input)="onInput()"></span>
+    <span contenteditable="false" style="color: silver; ">{{hintText}}</span>
+    <span *ngIf="hintText!=''" #editedPostfixSpan contenteditable="true">{{editedContentPostfix}}</span>
 </div>

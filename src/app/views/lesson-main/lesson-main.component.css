@@ -1,17 +1,30 @@
-.container {
+.component-container {
     display: grid;
     background-color: blueviolet;
     height:100vh;
-    grid-template-rows: 1fr 100px;
+    grid-template-rows: 1fr 200px;
 }
 
 .messages-area {
     background-color: burlywood;
     margin: 20px;
+    overflow-y: scroll;
 }
 
-.input-area {
-    background-color: darkcyan;
+.input-area {    
+    background-color: rgb(168, 47, 47);
     margin: 20px;
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 200px;
+}
+
+.ft-error {
+    text-decoration: line-through;    
+}
+
+.ft-correct {
+    color: black;
+
+}.ft-fixed {
+    color: red;
 }

@@ -1,0 +1,34 @@
+<div style="display: grid; grid-template-columns: 1fr 700px 500px 1fr; background-color: rgb(211, 211, 211); height: 100%;">
+    <div style="grid-column: 2; background-color: rgb(255, 255, 255); overflow-y: scroll;  ">
+        <div style="font-size: 30px; color: gray; margin: 20px;">
+            Lesson Scenarios
+        </div>
+        <div *ngFor="let scen of scenariosService.scenarios" style="padding: 20px; border-top: 1px solid;" class="scenario"
+                         (click)="scenarioClicked(scen)" [ngClass]="scen.id == selectedScenario?.id? 'scenario-selected':''">            
+            <div style="font-size: 20px;" >
+                {{scen.title}}
+            </div>
+        </div>
+    </div>
+    <div style="grid-column: 3; background-color: rgb(255, 255, 255); display: grid; grid-template-rows: 1fr 70px;">
+        <div style="grid-row: 1;">
+            <div style="font-size: 30px; color: gray; margin: 20px; ">
+                Lesson Options
+            </div>            
+            <div *ngIf="selectedScenario">
+                <div style="font-size: 20px; color: rgb(136, 136, 136); margin: 15px;">
+                    Title: <br> {{selectedScenario.title}}
+                </div>
+                <div style="font-size: 15px; color: rgb(139, 139, 139); margin: 15px;">
+                    Description: <br> {{selectedScenario.description}}
+                </div>
+            </div>    
+        </div>        
+        <div style="font-size: 30px; color: gray; margin: 20px; grid-row: 2;">
+            <div style="background-color: silver; border-radius: 5px; border-color: darkgray; border-style: solid; text-align: center;">
+                Start lesson
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,46 @@
+<div class="content-area">    
+    <div class="content-header" style="display: grid; grid-template-columns: 1fr 1000px 1fr;">
+        <div style="display: none; grid-column: 2; padding: 20px;">            
+            <div><span>Lessons: {{lessonsService.lessons.length}}</span></div>
+            <div><span>Messages: {{lessonsService.getMessagesCount()}}</span></div>
+            <div><span>Vocabulary: ...</span></div>
+        </div>
+        <div style="grid-column: 2; padding: 20px; display: flex;">
+            <img src="assets/Book1.png" style="padding: 20px; padding-top: 40px; margin-right: 50px;  height: 90px; width: 110px; rotate: -15deg;">
+            <span style="display: flex; flex-direction: column;">
+                <span style="margin-top: 30px; font-size: 30px; color: rgb(158, 158, 158);">Lessons: {{lessonsService.lessons.length}}</span>
+                <span style="margin-top: 15px; color: gray;">Messages: {{lessonsService.getMessagesCount()}}</span>
+                <span style="margin-top: 15px; color: gray;">Vocabulary: {{130}}</span>
+            </span>
+        </div>
+    
+    </div>
+    <div class="content-body" style="display: grid; grid-template-columns: 1fr 1000px 1fr;">        
+        <div *ngFor="let period of periods" class="lessons-list" 
+                    style="grid-column: 2; margin-bottom: 40px;">
+            <div style="display: flex; align-items: center; background-color: rgb(230, 230, 230); height: 50px; border-top-right-radius: 12px; border-top-left-radius: 12px;">
+                <span style="margin-left: 40px; color: gray;">{{period.name}}</span>
+            </div>
+            <div *ngIf="lessonsService.getLessonsInPeriod(period).length; else noRecords ">
+            <a [href]="'lessons/' + lesson.lessonId" class="lesson" *ngFor="let lesson of lessonsService.getLessonsInPeriod(period)"> 
+                    <span>
+                        {{lesson.lessonType}}
+                    </span>
+                    <span>
+                        {{lesson.scenario}}
+                    </span>
+                    <span>
+                        {{lesson.title}}
+                    </span>
+                    <span>
+                        {{lesson.messagesCount + ' / '+ lesson.revisedCount}}
+                    </span>
+                    <lesson-menu [lessonId]="lesson.lessonId!" (onDelete)="deleteLesson($event)"/>
+            </a>
+            </div>
+            <ng-template #noRecords>
+                <div class="lesson">No records</div>
+              </ng-template>
+        </div>        
+    </div>    
+</div>

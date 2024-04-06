@@ -2,28 +2,22 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Lesson, LessonsService } from '../../services/lessons-service';
+import { Router, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-lessons-main',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterOutlet],
   templateUrl: './lessons-main.component.html',
   styleUrl: './lessons-main.component.css'
 })
 export class LessonsMainComponent {
 
-  constructor(private lessonsService: LessonsService) { }
+  public activeMenu: string = 'newLesson';
 
-  lessons: Lesson[] = [];
-
-  async ngOnInit() {
-    this.lessonsService.lessons$.subscribe(lessons => {
-      this.lessons = lessons;
-    });    
+  constructor(router: Router) { 
+    this.activeMenu = router.url.split('/')[2];
   }
 
-  addNewLesson() {
-    this.lessonsService.AddLesson({ chatId: null, chatType: "translation", title: "new lesson"});
-  }
-
+  
 }

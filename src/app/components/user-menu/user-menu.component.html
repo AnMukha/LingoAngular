@@ -1,0 +1,7 @@
+<div class="container" tabindex="0" (focusout)="onBlur($event)">
+    <img src="assets/user1.png" (click)="onClick($event)" style="height: 37px; width: 37px; padding: 5px; cursor: pointer;"/>     
+    <ul *ngIf="menuVisible" class="menu-items-list">
+        <li class="menu-item" (click)="onRenameClick($event)">Change native language</li>
+        <li class="menu-item" (click)="onDeleteClick($event)">Sing out</li>
+    </ul>
+</div>

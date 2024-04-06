@@ -5,4 +5,15 @@
 
 [contenteditable="true"] {
     outline: none;
-  }
+}
+
+.ft-error {
+    text-decoration: line-through;    
+}
+
+.ft-correct {
+    color: black;
+
+}.ft-fixed {
+    color: red;
+}

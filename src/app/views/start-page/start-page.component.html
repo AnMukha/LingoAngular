@@ -3,14 +3,14 @@
     <div class = "menu">
         <img src="assets/global3.png" style="height: 33px; width: 33px; margin-left: 50px; margin-right: 10px; rotate: -15grad;">
         <span class="logo-icon">A2B2</span>
-        <a href="/lessons" class="item">AI Chat Lessons</a>
+        <a href="/lessons/newLesson" class="item">AI Chat Lessons</a>
         <a href="/progress" class="item">Vocabulary map</a>
         <span class="to-left">
         <span class="lang-selection-container">
             <span class="lang-label">Language to study today:</span>
             <input class="lang-input" value="English">
-        </span>
-        <img *ngIf="logined" href="#" (click) = "logout()" class="user-icon"  src="assets/user1.png" style="height: 37px; width: 37px; padding: 5px;">        
+        </span>        
+        <user-menu *ngIf="logined" (onLogoutClick)="logout()" (onNativeLanguageClick)="selectNativeLanguage()"/>
         <a *ngIf="!logined" href="/login" class="item">Sign in</a>
         </span>
     </div>
