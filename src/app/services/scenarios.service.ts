@@ -14,6 +14,12 @@ export class ScenariosService {
           this.scenarios = data;        
       });
   }
+
+
+  public async createLesson(scenarioOptions: ScenarioOptions): Promise<string> {
+    return await firstValueFrom(this.http.post<string>('lessons', scenarioOptions));
+}
+
 }
 
 export class Scenario {
@@ -23,6 +29,11 @@ export class Scenario {
   public scenarioType!: string;
   public content!: string;
   public aIMode!: string;
+}
+
+export class ScenarioOptions {
+  public scenarioId!: string;  
+  public aIMode: string | null = null;
 }
 
 

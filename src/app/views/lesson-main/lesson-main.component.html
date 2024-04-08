@@ -1,6 +1,11 @@
 <div class="component-container">
-    <div class = "messages-area" style="padding-left: 100px; padding-right: 100px; background-color: white;" >
-        <div style="background-color: white;" *ngFor="let m of messagesService.messages">
+<div style="grid-column: 2; display: grid; grid-template-rows: 1fr 200px; overflow: hidden;">
+    <div class = "messages-area" style="grid-row: 1; padding-left: 50px; padding-right: 50px; background-color: white; height: 100%; overflow-y: auto;" >
+        <hr/>
+        <div style="font-style: italic; color: gray;">
+            {{lesson?.preface}}
+        </div>
+        <div *ngFor="let m of messagesService.messages" style="background-color: white;">
             <hr/>
             <div *ngIf="m.isUserMessage">
                 <div style="font-weight: bold;">You</div>                
@@ -13,12 +18,31 @@
                 <span [innerHTML]="getMarkdown(m.content!)"></span>
             </div>
         </div>
-</div>
-    <div class = "input-area">
-        <app-chat-input style="flex-grow: 1; padding: 4px; overflow: auto; background-color: white; margin: 20px; border-radius: 4px;"></app-chat-input>
-        <div style="padding: 10px; width: 150px;">
-            <button (click) = "sumbitMessage()" style="display: block;">Complete</button>
-            <button (click) = "sumbitCurrent()" >Submit current</button>
+    </div>
+    <div style="grid-row: 2; background-color: white;  display: grid; grid-template-rows: 30px 150px;">
+        <div style="grid-row: 1; background-color: rgb(255, 255, 255);">            
+            dsf
+        </div>
+        <div style="grid-row: 2; background-color: rgb(255, 255, 255); overflow: hidden; height: 100%; padding-left: 50px; padding-right: 50px;
+                        padding-bottom: 20px; box-sizing: border-box; display: grid; grid-template-columns: 1fr 0px;">
+            <app-chat-input style="
+                        grid-column: 1;
+                        display: block;
+                        height: 100%; 
+                        overflow: hidden;
+                        box-sizing: border-box;
+                        padding-left: 25px; padding-right: 25px;
+                        padding-top: 15px; padding-bottom: 15px;
+                        background-color: rgb(255, 255, 255); 
+                        border-radius: 15px; border-style: solid;
+                        border-color: rgb(184, 184, 184); border-width: 1px;
+                        ">
+            </app-chat-input>     
+            <div style="grid-column: 2; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                <div class="submit-button" style="background-size: contain;  height: 35px; width: 35px; position: relative;  margin-left: -60px; cursor: pointer;" (click)="sumbitMessage()"></div>                
+                <div class="fix-button" style="background-size: contain; height: 35px; width: 35px; margin-top: 10px; position: relative; margin-left: -60px; cursor: pointer;" (click)="sumbitCurrent()"></div>
+            </div>
         </div>
     </div>    
+</div>
 </div>

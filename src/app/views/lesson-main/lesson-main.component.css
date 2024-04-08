@@ -1,21 +1,30 @@
 .component-container {
     display: grid;
-    background-color: blueviolet;
+    grid-template-columns: 1fr 1000px 1fr;
+    background-color: rgb(235, 235, 235);
     height:100vh;
-    grid-template-rows: 1fr 200px;
+    
+}
+
+.submit-button {
+    background-image: url('../../../assets/submit_gray.png');
+}
+
+.submit-button:hover {
+    background-image: url('../../../assets/submit_grayest.png');
+}
+
+.fix-button:hover {
+    background-image: url('../../../assets/checkbox_grayest.png');
+}
+
+.fix-button {
+    background-image: url('../../../assets/checkbox_gray.png');
 }
 
 .messages-area {
-    background-color: burlywood;
-    margin: 20px;
-    overflow-y: scroll;
-}
-
-.input-area {    
-    background-color: rgb(168, 47, 47);
-    margin: 20px;
-    display: grid;
-    grid-template-columns: 1fr 200px;
+    background-color: burlywood;    
+    overflow-y: auto;
 }
 
 .ft-error {

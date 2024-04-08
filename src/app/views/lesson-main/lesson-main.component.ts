@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
 import { FixedTextDirective } from '../../directives/fixed-text.directive';
 
 import * as marked from 'marked';
+import { Lesson, LessonsService } from '../../services/lessons-service';
 
 interface DirtyCheckResult {
     fixedText: string;
@@ -23,11 +24,20 @@ interface DirtyCheckResult {
 })
 export class LessonMainComponent  {  
   
-  constructor(private http: HttpClient, private route: ActivatedRoute, public messagesService: LessonMessagesService) {                  
+  constructor(private http: HttpClient, private route: ActivatedRoute, public messagesService: LessonMessagesService, private lessonsService: LessonsService) {                  
   }
   @ViewChild(ChatInputComponent) input!: ChatInputComponent;
 
-  private lessonId: string | null = null;
+  ngOnInit() {
+    this.route.paramMap.subscribe(async params => {
+      const lessonId = params.get('id');
+      if (lessonId)
+        this.messagesService.loadLessonMessages(lessonId);
+        this.lesson = await this.lessonsService.getLesson(lessonId!);
+    });  
+  }
+
+  public lesson: Lesson | null = null;
 
   async sumbitCurrent() {    
     var newText = this.input.getTextToFix();
@@ -42,23 +52,16 @@ export class LessonMainComponent  {
     var textToSubmit = this.input.getTextToSumbit();
     if (textToSubmit)
     {
-      this.http.post("lessons/" + this.lessonId + "/submitMessage", { id: "", content: textToSubmit }).subscribe(() => {
+      this.http.post("lessons/" + this.lesson?.lessonId + "/submitMessage", { id: "", content: textToSubmit }).subscribe(() => {
         this.input.reset();
-        this.http.put("lessons/" + this.lessonId + "/progressLesson", null).subscribe(() => {
-        if (this.lessonId)
-          this.messagesService.loadLessonMessages(this.lessonId);
+        this.http.put("lessons/" + this.lesson?.lessonId + "/progressLesson", null).subscribe(() => {
+        if (this.lesson?.lessonId)
+          this.messagesService.loadLessonMessages(this.lesson?.lessonId);
         });
       });
     }
   }
 
-  ngOnInit() {
-    this.route.paramMap.subscribe(params => {
-      this.lessonId = params.get('id');
-      if (this.lessonId)
-        this.messagesService.loadLessonMessages(this.lessonId);
-    });  
-  }
 
   getMarkdown(text: string): string {
     return marked.parse(text) as any;

@@ -1,4 +1,5 @@
-<div (keydown)="onKeyDownWhenEdit($event)" (click)="onContentClick()" (blur)="onContentBlur()" contenteditable="false" style="background-color: white; height: 100%;">    
+<div (keydown)="onKeyDownWhenEdit($event)" (click)="onContentClick()" (blur)="onContentBlur()" contenteditable="false" 
+    style="background-color: rgb(255, 255, 255); height: 100%; overflow-y: auto;">    
     <span contenteditable="false" *fixedText="corrections"></span>
         
     <span #editedSpan contenteditable="true" 

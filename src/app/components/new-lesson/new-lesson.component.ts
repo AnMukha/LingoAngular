@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { Scenario, ScenariosService } from '../../services/scenarios.service';
+import { Scenario, ScenarioOptions, ScenariosService } from '../../services/scenarios.service';
+import { Router } from '@angular/router';
+import { LessonProgressService } from '../../services/lesson-progress.service';
 
 @Component({
   selector: 'app-new-lesson',
@@ -11,7 +13,7 @@ import { Scenario, ScenariosService } from '../../services/scenarios.service';
 })
 export class NewLessonComponent {
 
-  constructor(public scenariosService: ScenariosService) { 
+  constructor(public scenariosService: ScenariosService, private router: Router, private progressService: LessonProgressService) { 
 
   }
 
@@ -19,6 +21,14 @@ export class NewLessonComponent {
 
   scenarioClicked(scenario: Scenario) {
     this.selectedScenario = scenario;
+  }
+
+  public async startLesson() {
+    if (this.selectedScenario) {
+      const scenarioOptions: ScenarioOptions = {scenarioId: this.selectedScenario.id, aIMode: null};
+      const  newLessonid = await this.scenariosService.createLesson(scenarioOptions);      
+      this.router.navigate([`/lessons/${newLessonid}`]);
+    }
   }
 
 }

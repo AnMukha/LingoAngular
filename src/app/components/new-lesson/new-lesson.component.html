@@ -3,8 +3,8 @@
         <div style="font-size: 30px; color: gray; margin: 20px;">
             Lesson Scenarios
         </div>
-        <div *ngFor="let scen of scenariosService.scenarios" style="padding: 20px; border-top: 1px solid;" class="scenario"
-                         (click)="scenarioClicked(scen)" [ngClass]="scen.id == selectedScenario?.id? 'scenario-selected':''">            
+        <div *ngFor="let scen of scenariosService.scenarios" style="padding: 20px; border-top: 1px solid;" 
+                         (click)="scenarioClicked(scen)" [ngClass]="scen.id == selectedScenario?.id? 'scenario-selected':'scenario'">            
             <div style="font-size: 20px;" >
                 {{scen.title}}
             </div>
@@ -23,11 +23,14 @@
                     Description: <br> {{selectedScenario.description}}
                 </div>
             </div>    
-        </div>        
-        <div style="font-size: 30px; color: gray; margin: 20px; grid-row: 2;">
-            <div style="background-color: silver; border-radius: 5px; border-color: darkgray; border-style: solid; text-align: center;">
-                Start lesson
+            <div *ngIf="!selectedScenario" style="color: gray; display: flex; justify-content: center; align-items: center; height: 80%;">
+                choose scenario
             </div>
+        </div>        
+        <div *ngIf="selectedScenario" style=" color: rgb(0, 0, 0); grid-row: 2; display: flex; justify-content: center;">
+            <button class="start-button" (click)="startLesson()">
+                Start lesson
+            </button>
         </div>
     </div>
 

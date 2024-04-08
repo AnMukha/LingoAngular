@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, firstValueFrom } from 'rxjs';
 import { Period } from './lesson-messages.service';
+import { ScenarioOptions } from './scenarios.service';
 
 @Injectable({ providedIn: 'root' })
 export class LessonsService {
@@ -13,9 +14,6 @@ export class LessonsService {
         firstValueFrom(this.http.get<Lesson[]>('lessons')).then(data => {
             this.lessons = data;        
         });
-    }
-
-    AddLesson(newLesson: Lesson) {
     }
 
     public deleteLesson(lessonId: string) {
@@ -33,12 +31,17 @@ export class LessonsService {
         return this.lessons.filter(l => new Date(l.created) >= period.from && new Date(l.created) <= period.to);
     }
 
+    getLesson(lessonId: string): Promise<Lesson> {
+        return firstValueFrom(this.http.get<Lesson>(`lessons/${lessonId}`));
+    }
+
 }
 
 export class Lesson {
     public lessonId: string | null = null;
     public lessonType: string = "";
     public title:  string = "";
+    public preface: string = "";
     public created!: string;
     public scenario: string = "";
     public messagesCount: number = 0;
